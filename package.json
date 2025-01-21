@@ -1,0 +1,31 @@
+{
+    "name": "cordova-plugin-simple-messaging",
+    "version": "0.1.0",
+    "description": "Enables JS apps to receive push notifications from the Simple Messaging framework.",
+    "cordova": {
+        "id": "cordova-plugin-simple-messaging",
+        "platforms": [
+            "android",
+            "ios"
+        ]
+    },
+    "type": "module",
+    "keywords": [
+        "cordova",
+        "plugin",
+        "push-notification",
+        "messaging",
+        "ecosystem:cordova",
+        "cordova-android",
+        "cordova-ios"
+    ],
+    "author": "Chris J. Karr",
+    "license": "Apache-2.0",
+    "dependencies": {
+      "eslint": "^8.57.0",
+      "eslint-config-standard": "^17.1.0",
+      "eslint-plugin-import": "^2.29.1",
+      "eslint-plugin-n": "^16.6.2",
+      "eslint-plugin-promise": "^6.1.1"
+    }
+}

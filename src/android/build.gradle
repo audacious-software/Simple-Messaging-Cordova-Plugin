@@ -1,0 +1,23 @@
+ext {
+    VERSION_NAME = '0.1.0'
+    VERSION_CODE = 100
+    COMPILE_SDK = 33
+}
+
+repositories {    
+    jcenter()
+}
+
+android {
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 34
+        compileSdkVersion COMPILE_SDK
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
+    }
+
+    dependencies {
+        api 'com.google.firebase:firebase-messaging:23.3.1'
+    }
+}

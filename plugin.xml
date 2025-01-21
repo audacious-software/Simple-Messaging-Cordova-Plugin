@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-simple-messaging" version="0.1.0">
+    <name>Simple Messaging</name>
+    <description>Enables JS apps to receive push notifications from the Simple Messaging framework.</description>
+    <license>Unlicensed</license>
+    <keywords>cordova,certiscan,ecap,nfc</keywords>
+
+    <asset src="www/simple-messaging.js" target="www/simple-messaging.js"/>
+
+    <js-module src="www/simple-messaging.js" name="simpleMessaging">
+        <clobbers target="simpleMessaging" />
+    </js-module>
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Device">
+                <param name="ios-package" value="CDVDevice"/>
+            </feature>
+            <feature name="MessagingUtils">
+                <param name="ios-package" value="SMMessagingUtils"/>
+            </feature>
+            <preference name="deployment-target" value="13.0" />
+        </config-file>
+        <source-file src="src/ios/SMMessagingUtils.swift" />
+
+        <preference name="NFC_USAGE_DESCRIPTION" default="Scans CertiScan eCap pill bottle usage." />
+        <config-file target="*-Info.plist" parent="NFCReaderUsageDescription">
+            <string>$NFC_USAGE_DESCRIPTION</string>
+        </config-file>
+    </platform>
+
+    <platform name="android">
+        <!-- <asset src="src/android/settings.gradle" target="settings.gradle"/> -->
+
+        <source-file src="src/android/SimpleMessagingUtils.java" target-dir="src/org/apache/cordova/plugin" />
+
+        <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+        
+        <config-file target="config.xml" parent="/*">    
+            <feature name="MessagingUtils">
+                <param name="android-package" value="org.apache.cordova.plugin.SimpleMessagingUtils"/>
+            </feature>
+        </config-file>
+        
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+        </config-file>
+        
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+        </config-file>
+    </platform>
+</plugin>
