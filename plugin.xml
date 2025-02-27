@@ -3,7 +3,7 @@
     <name>Simple Messaging</name>
     <description>Enables JS apps to receive push notifications from the Simple Messaging framework.</description>
     <license>Unlicensed</license>
-    <keywords>cordova,certiscan,ecap,nfc</keywords>
+    <keywords>cordova,push,notification</keywords>
 
     <asset src="www/simple-messaging.js" target="www/simple-messaging.js"/>
 
@@ -19,33 +19,53 @@
             <feature name="MessagingUtils">
                 <param name="ios-package" value="SMMessagingUtils"/>
             </feature>
-            <preference name="deployment-target" value="13.0" />
+            <!-- <preference name="deployment-target" value="13.0" /> -->
+            <preference name="SwiftVersion" value="5" />
         </config-file>
-        <source-file src="src/ios/SMMessagingUtils.swift" />
+        <source-file src="src/ios/SMMessagingUtils.h" />
+        <source-file src="src/ios/SMMessagingUtils.m" />
 
-        <preference name="NFC_USAGE_DESCRIPTION" default="Scans CertiScan eCap pill bottle usage." />
-        <config-file target="*-Info.plist" parent="NFCReaderUsageDescription">
-            <string>$NFC_USAGE_DESCRIPTION</string>
+        <config-file target="*-Info.plist" parent="UIBackgroundModes">
+          <array>
+            <string>remote-notification</string>
+        </array>
+        </config-file>
+
+        <config-file target="*-Debug.plist" parent="aps-environment">
+            <string>development</string>
+        </config-file>
+
+        <config-file target="*-Release.plist" parent="aps-environment">
+            <string>production</string>
         </config-file>
     </platform>
 
     <platform name="android">
-        <!-- <asset src="src/android/settings.gradle" target="settings.gradle"/> -->
-
         <source-file src="src/android/SimpleMessagingUtils.java" target-dir="src/org/apache/cordova/plugin" />
+        <source-file src="src/android/SimpleMessagingFirebaseService.java" target-dir="src/org/apache/cordova/plugin" />
 
         <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
-        
-        <config-file target="config.xml" parent="/*">    
+
+        <config-file target="config.xml" parent="/*">
             <feature name="MessagingUtils">
                 <param name="android-package" value="org.apache.cordova.plugin.SimpleMessagingUtils"/>
             </feature>
+            <preference name="AndroidXEnabled" value="true" />
+            <preference name="GradlePluginGoogleServicesEnabled" value="true"/>
+            <preference name="GradlePluginGoogleServicesVersion" value="4.4.2"/>
         </config-file>
-        
+
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <service
+                android:name="org.apache.cordova.plugin.SimpleMessagingFirebaseService" android:exported="false">
+                <intent-filter>
+                    <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                </intent-filter>
+            </service>
         </config-file>
-        
+
         <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
         </config-file>
     </platform>
 </plugin>
