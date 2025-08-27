@@ -15,6 +15,19 @@
     [defaults setValue:[deviceToken hexString] forKey:@"SMMessagingUtils.deviceToken"];
     [defaults synchronize];
 }
+
+/*
+ Add to Swift app delegate if app is in Swift:
+ 
+  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+
+    UserDefaults.standard.set(token, forKey: "SMMessagingUtils.deviceToken")
+        
+    UserDefaults.standard.synchronize()
+  }
+ */
+
 @end
 
 @implementation SMMessagingUtils
@@ -145,3 +158,4 @@
 }
 
 @end
+
