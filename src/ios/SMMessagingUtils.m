@@ -27,12 +27,16 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
 
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        NSLog(@"SMMessagingUtils.fetchDeviceTokenAndTransmit: register[1]");
+    
         NSString * endpointUrl = [command argumentAtIndex:0];
         NSString * username = [command argumentAtIndex:1];
 
         NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
 
         NSString * deviceToken = [defaults stringForKey:@"SMMessagingUtils.deviceToken"];
+
+        NSLog(@"SMMessagingUtils.fetchDeviceTokenAndTransmit: register[2]: %@, %@, %@", endpointUrl, username, deviceToken);
 
         if (deviceToken != nil) {
             NSURL * url = [NSURL URLWithString:endpointUrl];
@@ -53,7 +57,11 @@
             NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultSessionConfiguration];
 
             NSURLSessionDataTask *dataTask = [defaultSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                NSLog(@"SMMessagingUtils.fetchDeviceTokenAndTransmit: register[3]: %@, %d,", response, error);
+
                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+
+                NSLog(@"SMMessagingUtils.fetchDeviceTokenAndTransmit: register[4]: %@", @(response.statusCode));
 
                 if (httpResponse.statusCode < 200 || httpResponse.statusCode >= 300) {
                     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
